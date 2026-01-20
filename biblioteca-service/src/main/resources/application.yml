@@ -1,0 +1,40 @@
+### Explicar del por que del contenido del archivo ->
+
+spring:
+  application:
+    name: biblioteca-service
+  
+  # Configuracion de la base de datos H2
+  datasource:
+    url: jdbc:h2:mem:bibliotecadb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  
+  # Configuracion de JPA
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  
+  # Consola H2 (para desarrollo)
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+# Configuracion del servidor
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+# Logging
+logging:
+  level:
+    com.biblioteca: DEBUG
+    org.hibernate.SQL: DEBUG
