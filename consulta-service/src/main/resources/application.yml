@@ -1,4 +1,4 @@
-### Configuraciones ->
+### Configuraciones de spring ->
 server:
   port: 8081 # <- puerto diferente al del ms 1 (8080)
 
@@ -22,6 +22,6 @@ resilience4j:
       bibliotecaCB:
         failureRateThreshold: 50 # 50% de fallos → abre el circuito
         slidingWindowSize: 5 # 5 llamadas para evaluar
-        minimumNumberOfCalls: 3 # minimo de llamados
-        waitDurationInOpenState: 10s # 10 segundos sin intentar llamar a MS1
+        minimumNumberOfCalls: 3 # no evaluar antes de 3 llamadas
+        waitDurationInOpenState: 10s # 10 segundos antes de reintentar
         permittedNumberOfCallsInHalfOpenState: 2

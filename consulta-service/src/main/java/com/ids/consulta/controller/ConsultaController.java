@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 
+import static com.ids.consulta.constants.ConsultaConstants.HEADER_MY_FLAG_DELAY;
+
 // El controlador para maneja de peticiones http ->
 @RestController
 @RequestMapping("/consulta")
@@ -23,7 +25,7 @@ public class ConsultaController {
 
     // metodo GET para usuarios:
     @GetMapping("/usuarios")
-    public ResponseEntity<?> consultarUsuarios(@RequestHeader(value = "MyFlag", required = false) String myFlag) { // <- se obtiene del headers el delay "MyFlag" *
+    public ResponseEntity<?> consultarUsuarios(@RequestHeader(value = HEADER_MY_FLAG_DELAY, required = false) String myFlag) { // <- se obtiene del headers el delay "MyFlag" *
         return ResponseEntity.ok(consultaService.consultarUsuarios(myFlag));
     }
 }

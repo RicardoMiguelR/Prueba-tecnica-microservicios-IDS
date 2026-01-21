@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import static com.ids.consulta.constants.ConsultaConstants.HTTP_SERVER_INTERNAL_ERROR;
+
 // Clase para manejar excepciones globales ->
 @RestControllerAdvice
 public class GlobalExcepcion {
@@ -13,7 +15,7 @@ public class GlobalExcepcion {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> manejarError(RuntimeException runtimeException) {
         ErrorResponse error = new ErrorResponse(
-                500,
+                HTTP_SERVER_INTERNAL_ERROR,
                 "Error",
                 System.currentTimeMillis(),
                 runtimeException.getMessage()

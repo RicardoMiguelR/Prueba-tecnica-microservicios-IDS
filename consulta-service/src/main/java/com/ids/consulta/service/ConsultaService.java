@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+import static com.ids.consulta.constants.ConsultaConstants.ERROR_MS1_FUERA_DE_LINEA;
+import static com.ids.consulta.constants.ConsultaConstants.ERROR_MS1_TIMEOUT;
+
 // Clase para logica de negocio (capa de servicio) ->
 @Service
 public class ConsultaService {
@@ -29,8 +32,8 @@ public class ConsultaService {
     public List<Map<String, Object>> fallbackUsuarios(String myFlag, Throwable excepcion) {
         // Agregamos una condicion, en la cual identifica si el servidor ms1 no esta levantado/cayo o esta tardando mas de lo normal (delay):
         if (excepcion.getCause() instanceof java.net.ConnectException) {
-            throw new RuntimeException("El Microservicio 1 se encuentra fuera de linea");
+            throw new RuntimeException(ERROR_MS1_FUERA_DE_LINEA);
         }
-        throw new RuntimeException("El Microservicio 1 ha tardado mas de lo normal");
+        throw new RuntimeException(ERROR_MS1_TIMEOUT);
     }
 }

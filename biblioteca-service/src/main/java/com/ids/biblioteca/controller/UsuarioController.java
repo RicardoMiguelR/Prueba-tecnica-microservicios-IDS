@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.ids.biblioteca.constants.BibliotecaConstants.HEADER_MY_FLAG_DELAY;
+
 // Indico que este es mi controlador de endpoints (JSON) ->
 @RestController
 @RequestMapping("/usuarios") // <- endpoint
@@ -42,7 +44,7 @@ public class UsuarioController {
 
     // Listar usuarios que hay dentro de la biblioteca ->
     @GetMapping
-    public List<Usuario> listarUsuarios(@RequestHeader(value = "MyFlag", required = false) String myFlag) throws InterruptedException {
+    public List<Usuario> listarUsuarios(@RequestHeader(value = HEADER_MY_FLAG_DELAY, required = false) String myFlag) throws InterruptedException {
         // Si el header viene como true dejamos los 8 segundos:
         if ("true".equalsIgnoreCase(myFlag)) {
             Thread.sleep(8000); // <- delay para congelar el response 8 segundos *

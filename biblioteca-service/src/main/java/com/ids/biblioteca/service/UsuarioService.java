@@ -11,12 +11,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import static com.ids.biblioteca.constants.BibliotecaConstants.*;
+
 // Indico que esta es mi clase de Servicio, mi logica de negocio ->
 @Service
 public class UsuarioService {
-    // variable para el aforo maximo:
-    private static final int AFORO_MAXIMO = 10;
-
     private final UsuarioRepository usuarioRepository;
 
     // se inyecta el repository por el constructor:
@@ -27,9 +26,9 @@ public class UsuarioService {
     // metodo para validar el codigo ->
     public void validarCodigoUsuario(String codigoUsuario) {
         // validamos con regex:
-        final Pattern REGEX_ALFANUMERICO = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8}$", Pattern.CASE_INSENSITIVE); // <- regex para la validacion del codigoUsuario *
+        final Pattern REGEX_ALFANUMERICO = Pattern.compile(CODIGO_USUARIO_REGEX_VALIDACION, Pattern.CASE_INSENSITIVE); // <- regex para la validacion del codigoUsuario *
         if (!REGEX_ALFANUMERICO.matcher(codigoUsuario.trim()).matches()) {
-            throw new ExcepcionNegocio(422, "El código debe ser de 8 caracteres alfanumericos y contener al menos un numero y/o letra");
+            throw new ExcepcionNegocio(HTTP_UNPROCESSABLE_ENTITY, ERROR_CODIGO_USUARIO_INVALIDO);
         }
     }
 
@@ -45,7 +44,7 @@ public class UsuarioService {
 
         // condicion para arrojar error si ya esta dentro el usuario:
         if (existeUsuario.isPresent()) {
-            throw new ExcepcionNegocio(401, "¡Este usuario ya se encuentra dentro de la biblioteca!");
+            throw new ExcepcionNegocio(HTTP_UNAUTHORIZED, ERROR_USUARIO_DENTRO_DE_BIBLIOTECA);
         }
 
         // Creamos un objeto de tipo Usaurio:
@@ -60,7 +59,7 @@ public class UsuarioService {
     // Metodo para registrar la salida ->
     public void registrarSalidaUsuario(String codigoUsuario) {
         Usuario usuario = usuarioRepository.findByCodigoUsuario(codigoUsuario).orElseThrow(
-                () -> new ExcepcionNegocio(404,"El usuario no fue encontrado")
+                () -> new ExcepcionNegocio(HTTP_NOT_FOUND, ERROR_USUARIO_NO_ENCONTRADO)
         );
 
         // Transaccion: eliminar usuario:
@@ -78,7 +77,7 @@ public class UsuarioService {
 
         // Condicion para el aforo maximo:
         if (usuariosDentro >= AFORO_MAXIMO) {
-            throw new ExcepcionNegocio(401, "El aforo máximo fue alcanzado");
+            throw new ExcepcionNegocio(HTTP_UNAUTHORIZED, ERROR_AFORO_MAXIMO);
         }
     }
 }
