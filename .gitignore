@@ -1,31 +1,29 @@
+# ===============================
 # Maven
-target/
+# ===============================
+**/target/
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
-# Eclipse
-.settings/
-.classpath
-.project
-.metadata
-bin/
-tmp/
-*.tmp
-*.bak
-*.swp
-local.properties
-
-# IDE
+# ===============================
+# IntelliJ IDEA
+# ===============================
 .idea/
-*.iws
 *.iml
+*.iws
 *.ipr
+
+# ===============================
+# VS Code
+# ===============================
 .vscode/
 
-# OS
+# ===============================
+# OS files
+# ===============================
 .DS_Store
 Thumbs.db
 
+# ===============================
 # Logs
+# ===============================
 *.log

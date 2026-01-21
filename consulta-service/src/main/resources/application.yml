@@ -1,0 +1,27 @@
+### Configuraciones ->
+server:
+  port: 8081 # <- puerto diferente al del ms 1 (8080)
+
+spring:
+  application:
+    name: consulta-service
+
+# Confifuracion de feign
+feign:
+  client:
+    config:
+      default:
+        # Timeout:
+        connectTimeout: 5000 # Aqui se indica si tarda mas de 5 segundos abortar
+        readTimeout: 5000 # Aqui se indica si tarda mas de 5 segundos abortar
+
+# Config para circuit breacker
+resilience4j:
+  circuitbreaker:
+    instances:
+      bibliotecaCB:
+        failureRateThreshold: 50 # 50% de fallos → abre el circuito
+        slidingWindowSize: 5 # 5 llamadas para evaluar
+        minimumNumberOfCalls: 3 # minimo de llamados
+        waitDurationInOpenState: 10s # 10 segundos sin intentar llamar a MS1
+        permittedNumberOfCallsInHalfOpenState: 2
