@@ -1,4 +1,4 @@
-# Prueba Técnica IDS - Microservicios - Biblioteca v1-0 📌
+# Prueba Técnica IDS - Microservicios - Biblioteca v1.0.1 (actual) 📌
 
 ## 🔹 Descripción
 **Este proyecto contiene dos microservicios independientes, desarrollados con Java 8 y Spring Boot 2.7.18:**
