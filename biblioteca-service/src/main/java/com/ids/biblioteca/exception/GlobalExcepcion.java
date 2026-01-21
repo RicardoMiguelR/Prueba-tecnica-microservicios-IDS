@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExcepcion {
     @ExceptionHandler(ExcepcionNegocio.class)
     public ResponseEntity<ErrorResponse> manejarExcepcionNegocio(ExcepcionNegocio excepcionNegocio) {
-        ErrorResponse error = new ErrorResponse(excepcionNegocio.getStatusCode(), excepcionNegocio.getMessage());
+        ErrorResponse error = new ErrorResponse(excepcionNegocio.getStatusCode(), "Error", excepcionNegocio.getMessage());
 
         // devolvemos el json
         return ResponseEntity.status(excepcionNegocio.getStatusCode()).body(error);

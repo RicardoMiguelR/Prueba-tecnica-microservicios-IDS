@@ -9,11 +9,11 @@ public class ErrorResponse {
     private String details;
 
     // constructor:
-    public ErrorResponse(int code, String details) {
+    public ErrorResponse(int code, String type, String details) {
         this.code = code;
-        this.type = "Error";
-        this.timestamp = System.currentTimeMillis() / 1000;
+        this.type = type;
         this.details = details;
+        this.timestamp = System.currentTimeMillis() / 1000;
     }
 
     // Metodos getters ->

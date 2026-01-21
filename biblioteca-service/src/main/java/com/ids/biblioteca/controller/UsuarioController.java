@@ -1,7 +1,9 @@
 package com.ids.biblioteca.controller;
 
+import com.ids.biblioteca.exception.ErrorResponse;
 import com.ids.biblioteca.model.Usuario;
 import com.ids.biblioteca.service.UsuarioService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,11 +29,15 @@ public class UsuarioController {
 
     // Registro de salida de usuario (eliminacion de un usuario) ->
     @PostMapping("/salida")
-    public void registrarSalida(@RequestParam String codigoUsuario) {
-        // Falta logica para validar si existe el usuario, si existe, eliminar y enviar mensaje exitoso, si no existe, enviar excepcion:
-
-        // REferenciamos el metodo de registrar salida del service:
+    public ResponseEntity<ErrorResponse> registrarSalida(@RequestParam String codigoUsuario) {
+        // REferenciamos el metodo de registrar salida del service (eliminamos):
         usuarioService.registrarSalidaUsuario(codigoUsuario);
+
+        // respuesta generica de exito:
+        ErrorResponse respuestaExito = new ErrorResponse(200, "Success", "El usuario " + codigoUsuario + " ha salido con éxito de la biblioteca");
+
+        // REtornamos la respuesta:
+        return ResponseEntity.ok(respuestaExito);
     }
 
     // Listar usuarios que hay dentro de la biblioteca ->

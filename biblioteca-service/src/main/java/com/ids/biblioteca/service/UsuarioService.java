@@ -28,7 +28,7 @@ public class UsuarioService {
     public void validarCodigoUsuario(String codigoUsuario) {
         // validamos con regex:
         final Pattern REGEX_ALFANUMERICO = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8}$", Pattern.CASE_INSENSITIVE); // <- regex para la validacion del codigoUsuario *
-        if (!REGEX_ALFANUMERICO.matcher(codigoUsuario).matches()) {
+        if (!REGEX_ALFANUMERICO.matcher(codigoUsuario.trim()).matches()) {
             throw new ExcepcionNegocio(422, "El código debe ser de 8 caracteres alfanumericos y contener al menos un numero y/o letra");
         }
     }
@@ -60,7 +60,7 @@ public class UsuarioService {
     // Metodo para registrar la salida ->
     public void registrarSalidaUsuario(String codigoUsuario) {
         Usuario usuario = usuarioRepository.findByCodigoUsuario(codigoUsuario).orElseThrow(
-                () -> new RuntimeException("El usuario no fue encontrado")
+                () -> new ExcepcionNegocio(404,"El usuario no fue encontrado")
         );
 
         // Transaccion: eliminar usuario:
