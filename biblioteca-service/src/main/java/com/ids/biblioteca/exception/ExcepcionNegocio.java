@@ -2,16 +2,16 @@ package com.ids.biblioteca.exception;
 
 // Clase para no usar runtineexcepcion simple ->
 public class ExcepcionNegocio extends RuntimeException {
-    private final int statusCodigo;
+    private final int statusCode;
 
     // constructor:
-    public ExcepcionNegocio(int statusCodigo, String message) {
+    public ExcepcionNegocio(int statusCode, String message) {
         super(message);
-        this.statusCodigo = statusCodigo;
+        this.statusCode = statusCode;
     }
 
-    // metodo getter ->
-    public int getStatusCodigo() {
-        return statusCodigo;
+    // metodo getter:
+    public int getStatusCode() {
+        return statusCode;
     }
 }

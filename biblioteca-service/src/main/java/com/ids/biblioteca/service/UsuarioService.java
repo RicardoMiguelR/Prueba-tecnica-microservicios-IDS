@@ -3,11 +3,13 @@ package com.ids.biblioteca.service;
 import com.ids.biblioteca.exception.ExcepcionNegocio;
 import com.ids.biblioteca.model.Usuario;
 import com.ids.biblioteca.repository.UsuarioRepository;
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 // Indico que esta es mi clase de Servicio, mi logica de negocio ->
 @Service
@@ -23,17 +25,18 @@ public class UsuarioService {
     }
 
     // metodo para validar el codigo ->
-    public void validarCodigo(String codigoUsuario) {
-        // validamos con un regex:
-        if (!codigoUsuario.matches("^[a-zA-Z0-9]{8}$")) {
-            throw new ExcepcionNegocio(422, "El código debe ser de 8 decaracteres alfanumerIco");
+    public void validarCodigoUsuario(String codigoUsuario) {
+        // validamos con regex:
+        final Pattern REGEX_ALFANUMERICO = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8}$", Pattern.CASE_INSENSITIVE); // <- regex para la validacion del codigoUsuario *
+        if (!REGEX_ALFANUMERICO.matcher(codigoUsuario).matches()) {
+            throw new ExcepcionNegocio(422, "El código debe ser de 8 caracteres alfanumericos y contener al menos un numero y/o letra");
         }
     }
 
     // Metodo para registrar la entrada de usuarios ->
     public Usuario registrarEntrada(String codigoUsuario) {
         // VAlidamos el codigo (8 caracteres):
-        validarCodigo(codigoUsuario);
+        validarCodigoUsuario(codigoUsuario);
         // metodo para validar el aforo:
         consultarAforo();
 

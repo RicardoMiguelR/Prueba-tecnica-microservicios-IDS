@@ -2,8 +2,6 @@ package com.ids.biblioteca.controller;
 
 import com.ids.biblioteca.model.Usuario;
 import com.ids.biblioteca.service.UsuarioService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/usuarios") // <- endpoint
 public class UsuarioController {
+    // referenciamos el usuario service:
     private final UsuarioService usuarioService;
 
     // Inyectamos por constructor:
@@ -20,26 +19,30 @@ public class UsuarioController {
     }
 
     // Registrar entrada de usuarios (POST):
-    @PostMapping("/entrada/{codigoUsuario}")
-    public ResponseEntity<Usuario> registrarEntrada(@PathVariable String codigoUsuario) {
-        // referenciamos al metodo registrar del service:
-        Usuario usuario = usuarioService.registrarEntrada(codigoUsuario);
+    @PostMapping("/entrada")
+    public Usuario registrarEntrada(@RequestParam String codigoUsuario) {
         // retornamos el http exitoso:
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
+        return usuarioService.registrarEntrada(codigoUsuario);
     }
 
-    // Registro de salida de usuario ->
-    @DeleteMapping("/salida/{codigoUsuario}")
-    public ResponseEntity<Void> registrarSalida(@PathVariable String codigoUsuario) {
+    // Registro de salida de usuario (eliminacion de un usuario) ->
+    @PostMapping("/salida")
+    public void registrarSalida(@RequestParam String codigoUsuario) {
+        // Falta logica para validar si existe el usuario, si existe, eliminar y enviar mensaje exitoso, si no existe, enviar excepcion:
+
         // REferenciamos el metodo de registrar salida del service:
         usuarioService.registrarSalidaUsuario(codigoUsuario);
-        return ResponseEntity.noContent().build();
     }
 
     // Listar usuarios que hay dentro de la biblioteca ->
     @GetMapping
-    public ResponseEntity<List<Usuario>> listarUsuarios() {
-        // retornamos el response de usuarios que hay:
-        return ResponseEntity.ok(usuarioService.listarUsuariosDentro());
+    public List<Usuario> listarUsuarios(@RequestHeader(value = "MyFlag", required = false) String myFlag) throws InterruptedException {
+        // Si el header viene como true dejamos los 8 segundos:
+        if ("true".equalsIgnoreCase(myFlag)) {
+            Thread.sleep(8000); // <- delay para congelar el response 8 segundos *
+        }
+
+        // retornamos la lista:
+        return usuarioService.listarUsuariosDentro();
     }
 }
