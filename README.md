@@ -1,28 +1,70 @@
-# Prueba Técnica - Microservicios Biblioteca IDS
+# Prueba Técnica IDS - Microservicios - Biblioteca v1-0 📌
 
-## Descripción
-Este proyecto contiene dos microservicios interconectados desarrollados con Java 8 y Spring Boot 2.7.18:
+## 🔹 Descripción
+**Este proyecto contiene dos microservicios independientes, desarrollados con Java 8 y Spring Boot 2.7.18:**
 
-1. **biblioteca-service**: Microservicio de control de acceso a biblioteca (CRUD con H2)
-2. **biblioteca-client**: Microservicio cliente que consume biblioteca-service usando Feign
-
-## Tecnologías
+## 🔹 Tecnologías
 - Java 8
 - Spring Boot 2.7.18
 - Maven
 - H2
 - Spring Data JPA
-- OpenFeign
-- JUnit 5 + Mockito (testing)
+- Spring Cloude OpenFeign
 
-## Estructura del Proyecto esperado
+---
+
+### 🔹 Microservicio 1 - biblioteca-service
+- Provee al MS2 de usuarios
+- Simula delay mediante header `MyFlag=true`, entre otras pruebas.
+
+```json
+[
+    {
+        "id": 3,
+        "codigoUsuario": "jjjjj788"
+    },
+    {
+        "id": 2,
+        "codigoUsuario": "jjjjj7hy"
+    },
+    {
+        "id": 1,
+        "codigoUsuario": "lllllo09"
+    }
+]
+```
+
+### 🔹 Microservicio 2 - consulta-service
+- Consume al MS1 mediante OpenFeign client
+- Ejecuta un Circuit Breaker y fallback para ciertos casos en MS1 (fuera de línea o delay)
+- Manejo de errores (excepciones) genérico
+
+```json
+{
+    "code": 500,
+    "type": "Error",
+    "timestamp": 1768987368094,
+    "details": "El Microservicio 1 se encuentra fuera de línea"
+}
+```
+
+### 🔹 Ejecución
+1. Levantar `biblioteca-service`
+2. Levantar `consulta-service`
+3. Probar endpoints desde Postman (opción a gusto)
+
+---
+
+## 🔹 Estructura del Proyecto esperado
 ```
 ms-ids-prueba/
 ├── biblioteca-service/     # Microservicio 1 - Backend
 └── biblioteca-client/      # Microservicio 2 - Cliente Feign
 ```
 
-## Contexto de la prueba
+**Dato**: el proyecto esta almacenado en un solo repositorio, para facilitar la revision y entendimiento de código y estructura, pero cada Microservicio es independiente uno del otro.
+
+## 🔹 Contexto de la prueba
 
 #### Microservicio 1:
 Realice un CRUD a base de datos h2 donde se tenga el control de acceso a la biblioteca para controlar el acceso de usuarios a la misma con manejo de excepciones.
