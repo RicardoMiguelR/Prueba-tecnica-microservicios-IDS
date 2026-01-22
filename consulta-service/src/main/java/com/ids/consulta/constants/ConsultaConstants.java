@@ -11,6 +11,7 @@ public final class ConsultaConstants {
 
     // Codigos http para ms2:
     public static final int HTTP_SERVER_INTERNAL_ERROR = 500;
+    public static final int HTTP_CLIENT_INTERNAL_ERROR = 400;
 
     // respuestas de error:
     public static final String ERROR_MS1_TIMEOUT = "El Microservicio 1 ha tardado mas de lo normal";
